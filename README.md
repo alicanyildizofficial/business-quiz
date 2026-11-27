@@ -45,20 +45,42 @@ PLAYERS=50 HOST_KEY=test node test.js   # daha ağır yük
 
 ## Coolify'de yayına alma
 
-Quiz **ayrı bir proje** olarak kurulur; links.business'ın compose'una, env'ine, container'ına dokunulmaz.
+Quiz **ayrı bir proje** olarak kurulur; aynı sunucudaki diğer servislerin compose'una, env'ine, container'ına dokunulmaz.
 
-1. **Yeni proje** → Coolify'de `business-quiz`.
-2. **Kaynak:** bu klasör (Git veya doğrudan Dockerfile). Build pack: **Dockerfile**.
-3. **Port:** 3000.
-4. **Ortam değişkenleri:**
-   | Değişken | Değer |
-   |---|---|
-   | `HOST_KEY` | Uzun, tahmin edilemez bir dize. **Bu anahtar host ekranının tek kilidi.** |
-   | `PORT` | 3000 |
-   | `DATA_DIR` | /app/data |
-5. **Kalıcı volume:** `/app/data` → oyun snapshot'ı burada. Container yeniden başlasa oyun kaldığı yerden döner.
-6. **Bellek limiti: 512 MB.** Aynı sunucuyu production ile paylaştığımız için tek gerçek risk, buradaki olası bir sızıntının host RAM'ini yiyip production container'ını OOM'a sokmasıdır. Limit bunu kapatır.
-7. **Domain:** `planpartner.tech`.
+Repo: `https://github.com/alicanyildizofficial/business-quiz` (public — Coolify'de "Public Repository" ile eklenir, GitHub App gerekmez).
+
+### Yol A — Docker Compose (önerilen)
+
+Build pack **Docker Compose**, compose dosyası `docker-compose.yml`. Restart politikası, kalıcı disk ve bellek limiti dosyadan gelir; UI'da tek tek ayarlamak gerekmez.
+
+Tek girilecek ortam değişkeni:
+
+| Değişken | Değer |
+|---|---|
+| `HOST_KEY` | Uzun, tahmin edilemez bir dize. **Host ekranının tek kilidi.** |
+
+Sonra domain alanına adresi yaz ve deploy et.
+
+### Yol B — Dockerfile
+
+Build pack **Dockerfile**, port **3000**. Bu yolda aşağıdakileri UI'dan elle ayarla:
+
+| Ayar | Değer |
+|---|---|
+| Env `HOST_KEY` | Uzun, tahmin edilemez bir dize |
+| Env `PORT` | 3000 |
+| Env `DATA_DIR` | /app/data |
+| Kalıcı volume | `/app/data` |
+| Bellek limiti | 512 MB |
+
+**Volume'ü atlama.** Oyun durumu ve lead'ler orada; bağlı değilse her yeniden başlatma hepsini sıfırlar. Bellek limiti de aynı sunucudaki komşu servisler için: olası bir sızıntı host RAM'ini yiyip onları OOM'a sokmasın.
+
+### Yeniden başlamaya dayanıklılık
+
+Üç parça birlikte çalışır:
+- `restart: unless-stopped` → sunucu yeniden başlasa container kendiliğinden kalkar (Dockerfile yolunda bunu Coolify uygular).
+- `/app/data` volume → snapshot diskte kalır, açılışta okunur, oyun kaldığı yerden devam eder.
+- `HEALTHCHECK` → sağlıksız container yeniden başlatılır.
 
 ### DNS — bugünün tek zamanlama riski
 

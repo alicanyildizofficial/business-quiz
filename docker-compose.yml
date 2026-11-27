@@ -1,0 +1,50 @@
+# Business Quiz — Coolify dağıtımı
+#
+# Coolify'de "Docker Compose" build pack'i seçilirse restart politikası,
+# kalıcı disk ve bellek limiti buradan gelir; UI'da tek tek ayarlamaya
+# gerek kalmaz. Unutulması en pahalı iki ayar (volume ve restart) böylece
+# kodun içinde sabitlenmiş olur.
+#
+# Tek zorunlu ortam değişkeni: HOST_KEY
+
+services:
+  quiz:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # Sunucu yeniden başlasa da container kendiliğinden ayağa kalkar.
+    restart: unless-stopped
+
+    environment:
+      HOST_KEY: ${HOST_KEY:?HOST_KEY tanimlanmali}
+      PORT: 3000
+      DATA_DIR: /app/data
+
+    # Oyun durumu ve lead'ler burada. Bu volume olmazsa her yeniden
+    # başlatmada oyun ve toplanan lead'ler sıfırlanır.
+    volumes:
+      - quiz-data:/app/data
+
+    # Aynı sunucuda başka servisler var; olası bir sızıntı host belleğini
+    # yiyip komşu container'ları OOM'a sokmasın.
+    mem_limit: 512m
+    mem_reservation: 128m
+
+    # Traefik container ağı üzerinden bağlanır; port host'a açılmaz.
+    expose:
+      - "3000"
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "require('http').get('http://127.0.0.1:3000/api/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
+      interval: 20s
+      timeout: 4s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  quiz-data:
