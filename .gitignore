@@ -3,3 +3,4 @@ node_modules/
 *.log
 HOST_KEY.local.txt
 COOLIFY.local.txt
+COOLIFY.local*

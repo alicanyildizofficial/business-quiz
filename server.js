@@ -402,6 +402,12 @@ async function handleHostAction(req, res) {
       state.leads = leads;
       break;
     }
+    // Her şeyi siler, lead'ler dahil. Prova sonrası sahneyi temiz bırakmak
+    // için. Arayüze bilerek konmadı: yanlışlıkla basılması lead kaybettirir.
+    case 'purge': {
+      state = freshState();
+      break;
+    }
     default:
       return send(res, 400, { error: 'Bilinmeyen eylem' });
   }

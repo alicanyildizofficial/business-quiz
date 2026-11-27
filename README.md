@@ -181,3 +181,14 @@ Tek etkinlik için kapsam bilerek donduruldu. Sahadan çıkan veriyle links.busi
 | Sertifika yok | DNS A kaydı yayıldı mı: `nslookup planpartner.tech` |
 
 Sağlık ucu: `GET /api/health` → `{"ok":true,"phase":"..."}`
+
+### Prova sonrası tam temizlik
+
+Host ekranındaki **Yeni oyun** puanları sıfırlar ama lead'leri korur. Provada
+toplanan test lead'lerini de silmek için (arayüzde bilerek yok, yanlışlıkla
+basılmasın):
+
+```
+curl -X POST "https://<adres>/api/host/action?key=<HOST_KEY>" \
+  -H "Content-Type: application/json" -d '{"action":"purge"}'
+```
