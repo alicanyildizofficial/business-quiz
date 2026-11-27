@@ -1,0 +1,14 @@
+{
+  "name": "business-quiz",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Canlı quiz motoru — The Business Partner AI",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

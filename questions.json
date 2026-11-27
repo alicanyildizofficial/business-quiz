@@ -1,0 +1,131 @@
+[
+  {
+    "text": "MVP neyin kısaltması?",
+    "choices": [
+      "Minimum Viable Product",
+      "Most Valuable Player",
+      "Market Validation Phase",
+      "Multi Vendor Platform"
+    ],
+    "correct": 0,
+    "seconds": 15,
+    "note": "En az özellikle, fikrin işe yarayıp yaramadığını öğrenmeye yetecek ilk sürüm."
+  },
+  {
+    "text": "B2B ne demek?",
+    "choices": [
+      "Şirketten şirkete",
+      "Şirketten tüketiciye",
+      "Bankadan bankaya",
+      "Tüketiciden tüketiciye"
+    ],
+    "correct": 0,
+    "seconds": 15,
+    "note": "Business to Business. Tüketiciye satış ise B2C."
+  },
+  {
+    "text": "Amazon kurulduğunda yalnızca ne satıyordu?",
+    "choices": ["Kitap", "Elektronik", "Oyuncak", "Kahve"],
+    "correct": 0,
+    "seconds": 20,
+    "note": "1995'te sadece online kitapçıydı. Bugün bulut altyapısı en kârlı işi."
+  },
+  {
+    "text": "Bir SaaS şirketinde 'churn' neyi ölçer?",
+    "choices": [
+      "Ayrılan müşteri oranını",
+      "Aylık geliri",
+      "Sunucu maliyetini",
+      "Çalışan sayısını"
+    ],
+    "correct": 0,
+    "seconds": 20,
+    "note": "Abonelik işinde büyümeyi kesen asıl şey yeni müşteri bulamamak değil, mevcudu kaybetmektir."
+  },
+  {
+    "text": "SaaS açılımı nedir?",
+    "choices": [
+      "Software as a Service",
+      "Sales and Service",
+      "Secure Access System",
+      "Scalable Agile Stack"
+    ],
+    "correct": 0,
+    "seconds": 15,
+    "note": "Yazılımı satın almak yerine abonelikle kullanmak."
+  },
+  {
+    "text": "Girişimcilikte 'runway' ne anlama gelir?",
+    "choices": [
+      "Para bitene kadar kalan süre",
+      "Ürünün çıkış tarihi",
+      "Ofis kirası",
+      "Yatırımcı sunumu"
+    ],
+    "correct": 0,
+    "seconds": 20,
+    "note": "Eldeki nakit, aylık gidere bölünür. 6 ayın altına inince yatırım konuşmaları başlar."
+  },
+  {
+    "text": "Google'ın ilk adı neydi?",
+    "choices": ["BackRub", "SearchIt", "GoLink", "WebFind"],
+    "correct": 0,
+    "seconds": 20,
+    "note": "1996'da Stanford'da 'BackRub' adıyla başladı; sayfalara gelen bağlantıları saydığı için."
+  },
+  {
+    "text": "Girişim dünyasında 'unicorn' ne demek?",
+    "choices": [
+      "1 milyar dolar değerlemeyi aşan girişim",
+      "İlk yılında kâra geçen şirket",
+      "Tek kurucusu olan girişim",
+      "Hiç yatırım almamış şirket"
+    ],
+    "correct": 0,
+    "seconds": 20,
+    "note": "Terim 2013'te ortaya atıldı; o zaman nadir oldukları için 'tek boynuzlu at'."
+  },
+  {
+    "text": "CAC kısaltması neyi ifade eder?",
+    "choices": [
+      "Müşteri kazanma maliyeti",
+      "Yıllık nakit akışı",
+      "Toplam reklam bütçesi",
+      "Müşteri memnuniyet skoru"
+    ],
+    "correct": 0,
+    "seconds": 20,
+    "note": "Customer Acquisition Cost. Müşterinin ömür boyu değerinden (LTV) küçük olmalı."
+  },
+  {
+    "text": "Bir girişimin 'pivot' yapması ne demektir?",
+    "choices": [
+      "İş modelini veya ürünü köklü biçimde değiştirmek",
+      "Yeni ofise taşınmak",
+      "Şirketi satmak",
+      "Fiyatlara zam yapmak"
+    ],
+    "correct": 0,
+    "seconds": 20,
+    "note": "Instagram bir check-in uygulamasıydı, Slack ise oyun şirketiydi. İkisi de pivot."
+  },
+  {
+    "text": "QR kodundaki 'QR' ne demek?",
+    "choices": ["Quick Response", "Quality Rating", "Quick Read", "Query Resolver"],
+    "correct": 0,
+    "seconds": 15,
+    "note": "1994'te Japonya'da otomotiv parçalarını hızlı takip etmek için icat edildi. Buraya da onunla geldiniz."
+  },
+  {
+    "text": "'Bootstrapping' ne anlama gelir?",
+    "choices": [
+      "Dış yatırım almadan kendi kaynağıyla büyümek",
+      "Melek yatırımcı bulmak",
+      "Halka arza hazırlanmak",
+      "Yurt dışında şirket kurmak"
+    ],
+    "correct": 0,
+    "seconds": 20,
+    "note": "Yavaş büyütür ama şirket tamamen kurucularda kalır."
+  }
+]

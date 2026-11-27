@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#0b0f19">
+<meta name="robots" content="noindex">
+<title>Business Quiz — The Business Partner AI</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand">
+    <div class="brand-mark">BP</div>
+    <div class="brand-text">
+      <div class="brand-title">Business Quiz</div>
+      <div class="brand-sub">The Business Partner AI</div>
+    </div>
+  </div>
+
+  <!-- 1. Katılım -->
+  <section id="s-join" class="screen active">
+    <h1>Yarışmaya katıl</h1>
+    <p class="lead">Ekrandaki PIN'i gir, adını yaz ve başla. Hızlı cevap daha çok puan getirir.</p>
+    <label for="pin">Oyun PIN'i</label>
+    <input id="pin" type="text" inputmode="numeric" autocomplete="off" maxlength="6" placeholder="000000">
+    <label for="name">Adın</label>
+    <input id="name" type="text" autocomplete="off" maxlength="24" placeholder="Standda görünecek ad">
+    <div class="err" id="join-err"></div>
+    <button id="join-btn">Katıl</button>
+    <div class="foot">Katılım ücretsizdir, hesap açmanız gerekmez.</div>
+  </section>
+
+  <!-- 2. Lobi -->
+  <section id="s-lobby" class="screen">
+    <div class="center-block">
+      <div class="verdict" style="color:var(--accent)">Hazırsın<span class="pulse">…</span></div>
+      <p class="lead" id="lobby-name"></p>
+      <div class="statline">
+        <div class="stat"><div class="stat-v" id="lobby-count">0</div><div class="stat-k">Yarışmacı</div></div>
+      </div>
+      <p class="lead">Sunucu başlattığında soru burada görünecek. Telefonu kapatabilirsin, geri döndüğünde kaldığın yerden devam edersin.</p>
+    </div>
+  </section>
+
+  <!-- 3. Soru -->
+  <section id="s-question" class="screen">
+    <div class="qhead">
+      <span id="q-pos">Soru 1/12</span>
+      <span id="q-left">20</span>
+    </div>
+    <div class="timer-bar"><div class="timer-fill" id="q-fill"></div></div>
+    <div class="qtext" id="q-text"></div>
+    <div class="choices" id="q-choices"></div>
+  </section>
+
+  <!-- 4. Cevap verildi -->
+  <section id="s-waiting" class="screen">
+    <div class="center-block">
+      <div class="verdict" style="color:var(--accent)">Cevabın alındı</div>
+      <p class="lead pulse">Diğerleri bekleniyor…</p>
+      <div class="statline">
+        <div class="stat"><div class="stat-v" id="w-score">0</div><div class="stat-k">Puanın</div></div>
+        <div class="stat"><div class="stat-v" id="w-rank">-</div><div class="stat-k">Sıran</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Sonuç -->
+  <section id="s-reveal" class="screen">
+    <div class="center-block">
+      <div class="verdict" id="r-verdict"></div>
+      <div class="gained" id="r-gained"></div>
+      <p class="lead" id="r-correct"></p>
+      <div class="statline">
+        <div class="stat"><div class="stat-v" id="r-score">0</div><div class="stat-k">Toplam</div></div>
+        <div class="stat"><div class="stat-v" id="r-rank">-</div><div class="stat-k">Sıran</div></div>
+      </div>
+      <div class="note" id="r-note"></div>
+    </div>
+  </section>
+
+  <!-- 6. Final -->
+  <section id="s-final" class="screen">
+    <h1>Yarışma bitti</h1>
+    <div class="statline">
+      <div class="stat"><div class="stat-v" id="f-score">0</div><div class="stat-k">Puanın</div></div>
+      <div class="stat"><div class="stat-v" id="f-rank">-</div><div class="stat-k">Sıran</div></div>
+    </div>
+    <h2>İlk 5</h2>
+    <ul class="rank" id="f-podium"></ul>
+
+    <div class="card" id="lead-card">
+      <h2>Sonuçları ve demoyu gönderelim mi?</h2>
+      <p class="lead" style="margin-bottom:18px">Business Partner AI'dan haberdar olmak istersen bırak, biz ulaşalım.</p>
+      <label for="l-email">E-posta</label>
+      <input id="l-email" type="email" autocomplete="email" placeholder="ornek@sirket.com">
+      <label for="l-phone">Telefon (isteğe bağlı)</label>
+      <input id="l-phone" type="tel" autocomplete="tel" placeholder="05xx xxx xx xx">
+      <label for="l-company">Şirket (isteğe bağlı)</label>
+      <input id="l-company" type="text" maxlength="80" placeholder="Şirket adı">
+      <div class="consent">
+        <input id="l-consent" type="checkbox">
+        <label for="l-consent">İletişim bilgilerimin The Business Partner AI tarafından bana ulaşmak amacıyla işlenmesine onay veriyorum. Dilediğim zaman silinmesini isteyebilirim.</label>
+      </div>
+      <div class="err" id="lead-err"></div>
+      <button id="lead-btn">Gönder</button>
+    </div>
+
+    <div class="card" id="lead-done" style="display:none;text-align:center">
+      <div class="verdict ok" style="font-size:22px">Teşekkürler!</div>
+      <p class="lead" style="margin:8px 0 0">Bilgilerini aldık, stantta görüşürüz.</p>
+    </div>
+
+    <div class="foot">Business Quiz · The Business Partner AI</div>
+  </section>
+
+</div>
+<script src="/app.js"></script>
+</body>
+</html>
