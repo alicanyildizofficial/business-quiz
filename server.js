@@ -15,7 +15,13 @@ const path = require('path');
 const crypto = require('crypto');
 
 const PORT = Number(process.env.PORT) || 3000;
-const HOST_KEY = process.env.HOST_KEY || crypto.randomBytes(4).toString('hex');
+// Host ekranının tek kilidi. Üretimde eksikse başlamıyoruz: sessizce üretilen
+// kısa bir anahtar, yönetici ekranını zayıf bir parolayla açık bırakmak olurdu.
+if (!process.env.HOST_KEY && process.env.NODE_ENV === 'production') {
+  console.error('[fatal] HOST_KEY tanimlanmadan uretimde baslatilamaz.');
+  process.exit(1);
+}
+const HOST_KEY = process.env.HOST_KEY || crypto.randomBytes(16).toString('base64url');
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const SNAPSHOT = path.join(DATA_DIR, 'state.json');
 const PUBLIC_DIR = path.join(__dirname, 'public');
