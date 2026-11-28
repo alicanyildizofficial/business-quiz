@@ -6,21 +6,24 @@
 <meta name="theme-color" content="#0b0f19">
 <meta name="robots" content="noindex">
 <title>Host — Business Quiz</title>
+<link rel="icon" href="/logo.webp">
 <link rel="stylesheet" href="/style.css">
 <link rel="stylesheet" href="/host.css">
 </head>
 <body>
+<canvas id="confetti"></canvas>
 <div class="host-wrap">
 
   <div class="host-top">
     <div class="brand" style="margin:0">
-      <div class="brand-mark">BP</div>
+      <img class="brand-logo" src="/logo.webp" alt="Business Quiz">
       <div class="brand-text">
         <div class="brand-title">Business Quiz</div>
-        <div class="brand-sub">The Business Partner AI</div>
+        <div class="brand-sub">Business Partner AI altyapısındadır</div>
       </div>
     </div>
     <div class="host-stats">
+      <div class="host-stat"><div class="v" id="h-round">1/8</div><div class="k">Tur</div></div>
       <div class="host-stat"><div class="v" id="h-players">0</div><div class="k">Yarışmacı</div></div>
       <div class="host-stat"><div class="v" id="h-answered">0</div><div class="k">Cevaplayan</div></div>
       <div class="host-stat"><div class="v" id="h-pos">—</div><div class="k">Soru</div></div>
@@ -33,7 +36,7 @@
     <!-- Lobi -->
     <section id="h-lobby" class="screen active">
       <div class="pin-hero">
-        <div class="pin-label">Oyun PIN'i</div>
+        <div class="pin-label" id="h-roundname">Oyun PIN'i</div>
         <div class="pin-value" id="h-pin">······</div>
         <div class="pin-url" id="h-url">planpartner.tech</div>
         <div class="pin-hint">Telefonundan adresi aç, PIN'i gir, adını yaz.</div>
@@ -42,7 +45,7 @@
     </section>
 
     <!-- Soru / Sonuç -->
-    <section id="h-question" class="screen host-q">
+    <section id="h-question" class="screen">
       <div class="host-timer">
         <div class="num" id="h-left">20</div>
         <div class="bar"><div class="fill" id="h-fill"></div></div>
@@ -50,25 +53,27 @@
       <div class="host-qtext" id="h-qtext"></div>
       <div class="host-choices" id="h-choices"></div>
       <div class="host-note" id="h-note"></div>
+      <div class="auto-next" id="h-auto"></div>
+    </section>
+
+    <!-- Ara sıralama -->
+    <section id="h-board" class="screen">
+      <h1 style="text-align:center;font-size:clamp(28px,4vw,44px);margin-bottom:18px">Sıralama</h1>
+      <ul class="rank" id="h-boardlist" style="max-width:720px;margin:0 auto;width:100%"></ul>
+      <div class="auto-next" id="h-auto2"></div>
     </section>
 
     <!-- Final -->
     <section id="h-final" class="screen">
-      <div class="host-final">
-        <div>
-          <h1>Kazananlar</h1>
-          <ul class="rank" id="h-podium"></ul>
-        </div>
-        <div>
-          <div class="card">
-            <h2>Etkinlik özeti</h2>
-            <div class="statline">
-              <div class="stat"><div class="stat-v" id="f-players">0</div><div class="stat-k">Katılımcı</div></div>
-              <div class="stat"><div class="stat-v" id="f-leads">0</div><div class="stat-k">Lead</div></div>
-            </div>
-            <button class="ghost" id="h-csv">Lead'leri CSV indir</button>
-          </div>
-        </div>
+      <h1 style="text-align:center;font-size:clamp(30px,4.2vw,48px);margin-bottom:6px">Kazananlar</h1>
+      <div class="podium host-podium" id="h-podium">
+        <div class="pod pod-2"><div class="pod-name" id="hpod2-name">—</div><div class="pod-score" id="hpod2-score"></div><div class="pod-block"><div class="pod-medal">🥈</div><div class="pod-rank">2</div></div></div>
+        <div class="pod pod-1"><div class="pod-name" id="hpod1-name">—</div><div class="pod-score" id="hpod1-score"></div><div class="pod-block"><div class="pod-medal">🥇</div><div class="pod-rank">1</div></div></div>
+        <div class="pod pod-3"><div class="pod-name" id="hpod3-name">—</div><div class="pod-score" id="hpod3-score"></div><div class="pod-block"><div class="pod-medal">🥉</div><div class="pod-rank">3</div></div></div>
+      </div>
+      <ul class="rank" id="h-rest" style="max-width:640px;margin:0 auto;width:100%"></ul>
+      <div style="text-align:center;margin-top:22px">
+        <button class="ghost small" id="h-csv">Lead'leri CSV indir</button>
       </div>
     </section>
 
@@ -77,10 +82,12 @@
   <div class="host-actions">
     <button id="h-main">Başlat</button>
     <div class="spacer"></div>
+    <button class="ghost small" id="h-next-round">Sonraki tur</button>
     <button class="ghost small" id="h-reset">Yeni oyun</button>
   </div>
 
 </div>
+<script src="/confetti.js"></script>
 <script src="/host.js"></script>
 </body>
 </html>

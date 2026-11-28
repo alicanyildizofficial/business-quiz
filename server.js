@@ -2,7 +2,7 @@
 
 /**
  * Business Quiz — canlı quiz motoru
- * The Business Partner AI
+ * Business Partner AI altyapısındadır.
  *
  * Sıfır bağımlılık. Tek process, bellekte state, diske JSON snapshot.
  * Gerçek zamanlılık polling ile sağlanır (WebSocket yok) — istemci stateless
@@ -15,6 +15,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const PORT = Number(process.env.PORT) || 3000;
+
 // Host ekranının tek kilidi. Üretimde eksikse başlamıyoruz: sessizce üretilen
 // kısa bir anahtar, yönetici ekranını zayıf bir parolayla açık bırakmak olurdu.
 if (!process.env.HOST_KEY && process.env.NODE_ENV === 'production') {
@@ -26,43 +27,54 @@ const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const SNAPSHOT = path.join(DATA_DIR, 'state.json');
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
-const QUESTIONS = JSON.parse(
-  fs.readFileSync(path.join(__dirname, 'questions.json'), 'utf8')
-);
+// Sonuç ve ara sıralama ekranlarının kendiliğinden ilerleme süreleri.
+const REVEAL_MS = Number(process.env.REVEAL_MS) || 6000;
+const BOARD_MS = Number(process.env.BOARD_MS) || 7000;
+
+// ------------------------------------------------------------- sorular ----
+
+function loadRounds() {
+  const raw = JSON.parse(fs.readFileSync(path.join(__dirname, 'questions.json'), 'utf8'));
+  // Eski biçim (düz soru dizisi) tek turluk kabul edilir.
+  if (Array.isArray(raw)) return [{ name: 'Tur 1', questions: raw }];
+  return raw.rounds;
+}
+const ROUNDS = loadRounds();
 
 // ---------------------------------------------------------------- state ----
 
-/** @type {{phase:string, qIndex:number, startedAt:number|null, players:Object, leads:Array, pin:string}} */
 let state = null;
 
-function freshState() {
+function freshState(roundIndex) {
   return {
     pin: String(Math.floor(100000 + Math.random() * 900000)),
-    phase: 'lobby', // lobby | question | reveal | final
+    roundIndex: Math.min(Math.max(roundIndex || 0, 0), ROUNDS.length - 1),
+    phase: 'lobby', // lobby | question | reveal | scoreboard | final
     qIndex: -1,
     startedAt: null,
-    players: {}, // id -> {id, name, score, answers:{qIndex:{choice,ms,points}}, joinedAt}
+    phaseAt: Date.now(),
+    players: {},
     leads: [],
   };
 }
 
 function loadState() {
   try {
-    const raw = fs.readFileSync(SNAPSHOT, 'utf8');
-    const parsed = JSON.parse(raw);
+    const parsed = JSON.parse(fs.readFileSync(SNAPSHOT, 'utf8'));
     if (parsed && parsed.players && parsed.pin) {
-      console.log('[state] snapshot yüklendi, PIN %s', parsed.pin);
+      if (typeof parsed.roundIndex !== 'number') parsed.roundIndex = 0;
+      if (!parsed.phaseAt) parsed.phaseAt = Date.now();
+      console.log('[state] snapshot yüklendi, PIN %s, tur %d', parsed.pin, parsed.roundIndex + 1);
       return parsed;
     }
   } catch (_) {
     /* ilk açılış */
   }
-  return freshState();
+  return freshState(0);
 }
 
 let saveTimer = null;
 function save() {
-  // Yazmayı topaklayalım; her cevapta diske inmesin.
   if (saveTimer) return;
   saveTimer = setTimeout(() => {
     saveTimer = null;
@@ -77,29 +89,64 @@ function save() {
 
 // ------------------------------------------------------------- yardımcı ----
 
-function currentQuestion() {
-  return state.qIndex >= 0 ? QUESTIONS[state.qIndex] : null;
+function round() {
+  return ROUNDS[state.roundIndex] || ROUNDS[0];
 }
-
+function questions() {
+  return round().questions;
+}
+function currentQuestion() {
+  return state.qIndex >= 0 ? questions()[state.qIndex] : null;
+}
 function durationMs() {
   const q = currentQuestion();
   return (q ? q.seconds || 20 : 20) * 1000;
 }
-
 function elapsed() {
   return state.startedAt ? Date.now() - state.startedAt : 0;
 }
-
 function remainingMs() {
   if (state.phase !== 'question') return 0;
   return Math.max(0, durationMs() - elapsed());
 }
 
-/** Süre dolduysa kendiliğinden reveal'a geç. Timer yerine her istekte bakılır. */
+function setPhase(p) {
+  state.phase = p;
+  state.phaseAt = Date.now();
+}
+
+function gotoQuestion(i) {
+  state.qIndex = i;
+  state.startedAt = Date.now();
+  setPhase('question');
+}
+
+/**
+ * Zamanlayıcı yerine her istekte bakılır: süre dolunca sonuç, sonuç bitince
+ * ara sıralama, o da bitince sıradaki soru — host hiçbir tuşa basmasa bile
+ * oyun kendi kendine akar.
+ */
 function settlePhase() {
-  if (state.phase === 'question' && remainingMs() === 0) {
-    state.phase = 'reveal';
-    save();
+  let guard = 0;
+  while (guard++ < 5) {
+    const since = Date.now() - (state.phaseAt || 0);
+    if (state.phase === 'question' && remainingMs() === 0) {
+      setPhase('reveal');
+      save();
+      continue;
+    }
+    if (state.phase === 'reveal' && since >= REVEAL_MS) {
+      setPhase('scoreboard');
+      save();
+      continue;
+    }
+    if (state.phase === 'scoreboard' && since >= BOARD_MS) {
+      if (state.qIndex + 1 >= questions().length) setPhase('final');
+      else gotoQuestion(state.qIndex + 1);
+      save();
+      continue;
+    }
+    break;
   }
 }
 
@@ -116,18 +163,14 @@ function answerCounts() {
   const counts = q.choices.map(() => 0);
   for (const p of Object.values(state.players)) {
     const a = p.answers[state.qIndex];
-    if (a && typeof a.choice === 'number' && counts[a.choice] !== undefined) {
-      counts[a.choice] += 1;
-    }
+    if (a && typeof a.choice === 'number' && counts[a.choice] !== undefined) counts[a.choice] += 1;
   }
   return counts;
 }
 
 function answeredCount() {
   let n = 0;
-  for (const p of Object.values(state.players)) {
-    if (p.answers[state.qIndex]) n += 1;
-  }
+  for (const p of Object.values(state.players)) if (p.answers[state.qIndex]) n += 1;
   return n;
 }
 
@@ -149,18 +192,11 @@ function readBody(req) {
     let tooBig = false;
     req.on('data', (chunk) => {
       data += chunk;
-      if (data.length > 16 * 1024) {
-        tooBig = true;
-        req.destroy();
-      }
+      if (data.length > 16 * 1024) { tooBig = true; req.destroy(); }
     });
     req.on('end', () => {
       if (tooBig) return reject(new Error('body too large'));
-      try {
-        resolve(data ? JSON.parse(data) : {});
-      } catch (_) {
-        reject(new Error('invalid json'));
-      }
+      try { resolve(data ? JSON.parse(data) : {}); } catch (_) { reject(new Error('invalid json')); }
     });
     req.on('error', reject);
   });
@@ -176,19 +212,20 @@ const MIME = {
   '.js': 'application/javascript; charset=utf-8',
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
+  '.webp': 'image/webp',
+  '.jpg': 'image/jpeg',
   '.ico': 'image/x-icon',
 };
 
 function serveStatic(res, urlPath) {
   const rel = urlPath === '/' ? 'index.html' : urlPath.replace(/^\/+/, '');
   const full = path.join(PUBLIC_DIR, rel);
-  // Dizin dışına çıkmayı engelle
   if (!full.startsWith(PUBLIC_DIR)) return send(res, 403, 'forbidden');
   fs.readFile(full, (err, buf) => {
     if (err) return send(res, 404, 'not found');
     res.writeHead(200, {
       'Content-Type': MIME[path.extname(full)] || 'application/octet-stream',
-      'Cache-Control': 'no-cache',
+      'Cache-Control': path.extname(full) === '.webp' ? 'public, max-age=3600' : 'no-cache',
     });
     res.end(buf);
   });
@@ -206,7 +243,7 @@ async function handleJoin(req, res) {
   state.players[id] = { id, name, score: 0, answers: {}, joinedAt: Date.now() };
   save();
   console.log('[join] %s (%d oyuncu)', name, Object.keys(state.players).length);
-  return send(res, 200, { playerId: id, name });
+  return send(res, 200, { playerId: id, name, pin: state.pin });
 }
 
 function handlePlayerState(res, url) {
@@ -217,9 +254,11 @@ function handlePlayerState(res, url) {
   const out = {
     phase: state.phase,
     qIndex: state.qIndex,
-    total: QUESTIONS.length,
+    total: questions().length,
+    roundName: round().name,
     playerCount: Object.keys(state.players).length,
     known: Boolean(me),
+    pin: state.pin,
   };
 
   if (me) {
@@ -244,15 +283,15 @@ function handlePlayerState(res, url) {
     if (state.phase === 'reveal') {
       out.correct = q.correct;
       out.counts = answerCounts();
-      if (a) {
-        out.gained = a.points;
-        out.wasCorrect = a.choice === q.correct;
-      } else {
-        out.gained = 0;
-        out.wasCorrect = false;
-      }
+      out.gained = a ? a.points : 0;
+      out.wasCorrect = Boolean(a && a.choice === q.correct);
       if (q.note) out.note = q.note;
     }
+  }
+
+  if (state.phase === 'scoreboard') {
+    out.board = leaderboard(5);
+    out.qIndexDone = state.qIndex;
   }
 
   if (state.phase === 'final') {
@@ -278,7 +317,6 @@ async function handleAnswer(req, res) {
     return send(res, 400, { error: 'Geçersiz şık' });
   }
 
-  // Süreyi sunucu ölçer — istemcinin saatine güvenilmez.
   const ms = elapsed();
   const ratio = Math.min(1, ms / durationMs());
   const correct = choice === q.correct;
@@ -287,7 +325,6 @@ async function handleAnswer(req, res) {
   me.answers[state.qIndex] = { choice, ms, points };
   me.score += points;
   save();
-
   return send(res, 200, { ok: true, answered: true });
 }
 
@@ -303,14 +340,9 @@ async function handleLead(req, res) {
 
   state.leads = state.leads.filter((l) => l.playerId !== me.id);
   state.leads.push({
-    playerId: me.id,
-    name: me.name,
-    email,
-    phone,
+    playerId: me.id, name: me.name, email, phone,
     company: String(body.company || '').trim().slice(0, 80),
-    score: me.score,
-    consent: true,
-    at: new Date().toISOString(),
+    score: me.score, round: round().name, consent: true, at: new Date().toISOString(),
   });
   save();
   console.log('[lead] %s', me.name);
@@ -320,20 +352,29 @@ async function handleLead(req, res) {
 function handleHostState(res) {
   settlePhase();
   const q = currentQuestion();
+  const since = Date.now() - (state.phaseAt || 0);
   return send(res, 200, {
     pin: state.pin,
     phase: state.phase,
     qIndex: state.qIndex,
-    total: QUESTIONS.length,
+    total: questions().length,
+    roundIndex: state.roundIndex,
+    roundName: round().name,
+    roundCount: ROUNDS.length,
+    rounds: ROUNDS.map((r, i) => ({ index: i, name: r.name, count: r.questions.length })),
     playerCount: Object.keys(state.players).length,
     players: Object.values(state.players).map((p) => ({ name: p.name, score: p.score })),
     leaderboard: leaderboard(10),
     leadCount: state.leads.length,
+    autoInMs:
+      state.phase === 'reveal' ? Math.max(0, REVEAL_MS - since)
+      : state.phase === 'scoreboard' ? Math.max(0, BOARD_MS - since)
+      : null,
     question: q
       ? {
           text: q.text,
           choices: q.choices,
-          correct: state.phase === 'reveal' ? q.correct : null,
+          correct: state.phase === 'reveal' || state.phase === 'scoreboard' ? q.correct : null,
           note: state.phase === 'reveal' ? q.note || null : null,
           remainingMs: remainingMs(),
           durationMs: durationMs(),
@@ -350,77 +391,72 @@ async function handleHostAction(req, res) {
 
   switch (action) {
     /**
-     * Host ekranındaki tek butonun eylemi. Hangi işin yapılacağına sunucu
-     * karar verir, istemci değil.
-     *
-     * seenPhase/seenIndex, host'un BASARKEN gördüğü ekranı bildirir. Süre
-     * dolup faz kendiliğinden reveal'a geçtiği anda basılan tuş, istemci
-     * henüz "Sonucu göster" yazarken "sonraki soru" anlamına gelirdi ve
-     * soruyu atlardı. Gördüğü ekran güncel değilse komut yutulur.
+     * Host ekranındaki tek butonun eylemi; kararı sunucu verir.
+     * seenPhase/seenIndex, host'un BASARKEN gördüğü ekranı bildirir: faz
+     * kendiliğinden ilerlediği anda basılan tuş soruyu atlamasın diye,
+     * gördüğü ekran bayatsa komut yutulur.
      */
     case 'advance': {
       settlePhase();
-      if (String(body.seenPhase || '') !== state.phase || Number(body.seenIndex) !== state.qIndex) {
-        break; // bayat komut: sadece güncel durumu döndür
-      }
-      if (state.phase === 'question') {
-        state.phase = 'reveal';
-        break;
-      }
+      if (String(body.seenPhase || '') !== state.phase || Number(body.seenIndex) !== state.qIndex) break;
+      if (state.phase === 'question') { setPhase('reveal'); break; }
+      if (state.phase === 'reveal') { setPhase('scoreboard'); break; }
       if (state.phase === 'final') break;
-      // lobby veya reveal → sonraki soru
-      if (state.qIndex + 1 >= QUESTIONS.length) {
-        state.phase = 'final';
-      } else {
-        state.qIndex += 1;
-        state.phase = 'question';
-        state.startedAt = Date.now();
-      }
-      break;
-    }
-    case 'start':
-    case 'next': {
-      const nextIndex = state.qIndex + 1;
-      if (nextIndex >= QUESTIONS.length) {
-        state.phase = 'final';
-      } else {
-        state.qIndex = nextIndex;
-        state.phase = 'question';
-        state.startedAt = Date.now();
-      }
+      // lobby veya scoreboard → sıradaki soru
+      if (state.qIndex + 1 >= questions().length) setPhase('final');
+      else gotoQuestion(state.qIndex + 1);
       break;
     }
     case 'reveal':
-      if (state.phase === 'question') state.phase = 'reveal';
+      if (state.phase === 'question') setPhase('reveal');
       break;
+    // Doğrudan sıradaki soru (prova ve testler için; arayüz advance kullanır).
+    case 'next': {
+      if (state.qIndex + 1 >= questions().length) setPhase('final');
+      else gotoQuestion(state.qIndex + 1);
+      break;
+    }
     case 'final':
-      state.phase = 'final';
+      setPhase('final');
       break;
     case 'reset': {
       const leads = state.leads; // lead'ler korunur
-      state = freshState();
+      state = freshState(state.roundIndex);
+      state.leads = leads;
+      break;
+    }
+    // Sıradaki tura geçer: yeni PIN, sıfır skor, lead'ler korunur.
+    case 'nextRound': {
+      const leads = state.leads;
+      const next = Math.min(state.roundIndex + 1, ROUNDS.length - 1);
+      state = freshState(next);
+      state.leads = leads;
+      break;
+    }
+    case 'setRound': {
+      const leads = state.leads;
+      state = freshState(Number(body.round) || 0);
       state.leads = leads;
       break;
     }
     // Her şeyi siler, lead'ler dahil. Prova sonrası sahneyi temiz bırakmak
     // için. Arayüze bilerek konmadı: yanlışlıkla basılması lead kaybettirir.
-    case 'purge': {
-      state = freshState();
+    case 'purge':
+      state = freshState(state.roundIndex);
       break;
-    }
     default:
       return send(res, 400, { error: 'Bilinmeyen eylem' });
   }
   save();
-  console.log('[host] %s → faz=%s q=%d', action, state.phase, state.qIndex);
+  console.log('[host] %s → tur=%d faz=%s q=%d', action, state.roundIndex, state.phase, state.qIndex);
   return handleHostState(res);
 }
 
 function handleLeadsCsv(res) {
   const esc = (v) => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
-  const rows = [['isim', 'eposta', 'telefon', 'sirket', 'puan', 'onay', 'tarih'].join(',')];
+  const rows = [['isim', 'eposta', 'telefon', 'sirket', 'puan', 'tur', 'onay', 'tarih'].join(',')];
   for (const l of state.leads) {
-    rows.push([l.name, l.email, l.phone, l.company, l.score, l.consent ? 'evet' : 'hayir', l.at].map(esc).join(','));
+    rows.push([l.name, l.email, l.phone, l.company, l.score, l.round || '', l.consent ? 'evet' : 'hayir', l.at].map(esc).join(','));
   }
   send(res, 200, '﻿' + rows.join('\r\n'), {
     'Content-Type': 'text/csv; charset=utf-8',
@@ -462,12 +498,12 @@ state = loadState();
 
 server.listen(PORT, () => {
   console.log('');
-  console.log('  Business Quiz — The Business Partner AI');
-  console.log('  ----------------------------------------');
+  console.log('  Business Quiz — Business Partner AI altyapısındadır');
+  console.log('  ---------------------------------------------------');
   console.log('  Oyuncu : http://localhost:%d/', PORT);
   console.log('  Host   : http://localhost:%d/host?key=%s', PORT, HOST_KEY);
   console.log('  PIN    : %s', state.pin);
-  console.log('  Soru   : %d', QUESTIONS.length);
+  console.log('  Tur    : %d/%d — %s (%d soru)', state.roundIndex + 1, ROUNDS.length, round().name, questions().length);
   console.log('');
 });
 

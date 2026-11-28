@@ -5,17 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
 <meta name="theme-color" content="#0b0f19">
 <meta name="robots" content="noindex">
-<title>Business Quiz — The Business Partner AI</title>
+<title>Business Quiz</title>
+<link rel="icon" href="/logo.webp">
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+<canvas id="confetti"></canvas>
 <div class="wrap">
 
   <div class="brand">
-    <div class="brand-mark">BP</div>
+    <img class="brand-logo" src="/logo.webp" alt="Business Quiz">
     <div class="brand-text">
       <div class="brand-title">Business Quiz</div>
-      <div class="brand-sub">The Business Partner AI</div>
+      <div class="brand-sub">Business Partner AI altyapısındadır</div>
     </div>
   </div>
 
@@ -81,15 +83,34 @@
     </div>
   </section>
 
-  <!-- 6. Final -->
+  <!-- 6. Ara sıralama -->
+  <section id="s-board" class="screen">
+    <h2 style="text-align:center;margin-bottom:4px">Sıralama</h2>
+    <p class="lead" style="text-align:center" id="b-sub"></p>
+    <ul class="rank" id="b-list"></ul>
+    <div class="statline">
+      <div class="stat"><div class="stat-v" id="b-score">0</div><div class="stat-k">Puanın</div></div>
+      <div class="stat"><div class="stat-v" id="b-rank">-</div><div class="stat-k">Sıran</div></div>
+    </div>
+    <p class="lead pulse" style="text-align:center">Sıradaki soru geliyor…</p>
+  </section>
+
+  <!-- 7. Final -->
   <section id="s-final" class="screen">
-    <h1>Yarışma bitti</h1>
+    <h1 style="text-align:center">Yarışma bitti</h1>
+
+    <div class="podium" id="f-podium">
+      <div class="pod pod-2"><div class="pod-name" id="pod2-name">—</div><div class="pod-score" id="pod2-score"></div><div class="pod-block"><div class="pod-medal">🥈</div><div class="pod-rank">2</div></div></div>
+      <div class="pod pod-1"><div class="pod-name" id="pod1-name">—</div><div class="pod-score" id="pod1-score"></div><div class="pod-block"><div class="pod-medal">🥇</div><div class="pod-rank">1</div></div></div>
+      <div class="pod pod-3"><div class="pod-name" id="pod3-name">—</div><div class="pod-score" id="pod3-score"></div><div class="pod-block"><div class="pod-medal">🥉</div><div class="pod-rank">3</div></div></div>
+    </div>
+
+    <ul class="rank" id="f-rest"></ul>
+
     <div class="statline">
       <div class="stat"><div class="stat-v" id="f-score">0</div><div class="stat-k">Puanın</div></div>
       <div class="stat"><div class="stat-v" id="f-rank">-</div><div class="stat-k">Sıran</div></div>
     </div>
-    <h2>İlk 5</h2>
-    <ul class="rank" id="f-podium"></ul>
 
     <div class="card" id="lead-card">
       <h2>Sonuçları ve demoyu gönderelim mi?</h2>
@@ -102,7 +123,7 @@
       <input id="l-company" type="text" maxlength="80" placeholder="Şirket adı">
       <div class="consent">
         <input id="l-consent" type="checkbox">
-        <label for="l-consent">İletişim bilgilerimin The Business Partner AI tarafından bana ulaşmak amacıyla işlenmesine onay veriyorum. Dilediğim zaman silinmesini isteyebilirim.</label>
+        <label for="l-consent">İletişim bilgilerimin Business Partner AI tarafından bana ulaşmak amacıyla işlenmesine onay veriyorum. Dilediğim zaman silinmesini isteyebilirim.</label>
       </div>
       <div class="err" id="lead-err"></div>
       <button id="lead-btn">Gönder</button>
@@ -113,10 +134,11 @@
       <p class="lead" style="margin:8px 0 0">Bilgilerini aldık, stantta görüşürüz.</p>
     </div>
 
-    <div class="foot">Business Quiz · The Business Partner AI</div>
+    <div class="foot">Business Quiz · Business Partner AI altyapısındadır</div>
   </section>
 
 </div>
+<script src="/confetti.js"></script>
 <script src="/app.js"></script>
 </body>
 </html>

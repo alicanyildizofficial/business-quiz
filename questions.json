@@ -1,131 +1,140 @@
-[
-  {
-    "text": "MVP neyin kısaltması?",
-    "choices": [
-      "Minimum Viable Product",
-      "Most Valuable Player",
-      "Market Validation Phase",
-      "Multi Vendor Platform"
-    ],
-    "correct": 0,
-    "seconds": 15,
-    "note": "En az özellikle, fikrin işe yarayıp yaramadığını öğrenmeye yetecek ilk sürüm."
-  },
-  {
-    "text": "B2B ne demek?",
-    "choices": [
-      "Şirketten şirkete",
-      "Şirketten tüketiciye",
-      "Bankadan bankaya",
-      "Tüketiciden tüketiciye"
-    ],
-    "correct": 0,
-    "seconds": 15,
-    "note": "Business to Business. Tüketiciye satış ise B2C."
-  },
-  {
-    "text": "Amazon kurulduğunda yalnızca ne satıyordu?",
-    "choices": ["Kitap", "Elektronik", "Oyuncak", "Kahve"],
-    "correct": 0,
-    "seconds": 20,
-    "note": "1995'te sadece online kitapçıydı. Bugün bulut altyapısı en kârlı işi."
-  },
-  {
-    "text": "Bir SaaS şirketinde 'churn' neyi ölçer?",
-    "choices": [
-      "Ayrılan müşteri oranını",
-      "Aylık geliri",
-      "Sunucu maliyetini",
-      "Çalışan sayısını"
-    ],
-    "correct": 0,
-    "seconds": 20,
-    "note": "Abonelik işinde büyümeyi kesen asıl şey yeni müşteri bulamamak değil, mevcudu kaybetmektir."
-  },
-  {
-    "text": "SaaS açılımı nedir?",
-    "choices": [
-      "Software as a Service",
-      "Sales and Service",
-      "Secure Access System",
-      "Scalable Agile Stack"
-    ],
-    "correct": 0,
-    "seconds": 15,
-    "note": "Yazılımı satın almak yerine abonelikle kullanmak."
-  },
-  {
-    "text": "Girişimcilikte 'runway' ne anlama gelir?",
-    "choices": [
-      "Para bitene kadar kalan süre",
-      "Ürünün çıkış tarihi",
-      "Ofis kirası",
-      "Yatırımcı sunumu"
-    ],
-    "correct": 0,
-    "seconds": 20,
-    "note": "Eldeki nakit, aylık gidere bölünür. 6 ayın altına inince yatırım konuşmaları başlar."
-  },
-  {
-    "text": "Google'ın ilk adı neydi?",
-    "choices": ["BackRub", "SearchIt", "GoLink", "WebFind"],
-    "correct": 0,
-    "seconds": 20,
-    "note": "1996'da Stanford'da 'BackRub' adıyla başladı; sayfalara gelen bağlantıları saydığı için."
-  },
-  {
-    "text": "Girişim dünyasında 'unicorn' ne demek?",
-    "choices": [
-      "1 milyar dolar değerlemeyi aşan girişim",
-      "İlk yılında kâra geçen şirket",
-      "Tek kurucusu olan girişim",
-      "Hiç yatırım almamış şirket"
-    ],
-    "correct": 0,
-    "seconds": 20,
-    "note": "Terim 2013'te ortaya atıldı; o zaman nadir oldukları için 'tek boynuzlu at'."
-  },
-  {
-    "text": "CAC kısaltması neyi ifade eder?",
-    "choices": [
-      "Müşteri kazanma maliyeti",
-      "Yıllık nakit akışı",
-      "Toplam reklam bütçesi",
-      "Müşteri memnuniyet skoru"
-    ],
-    "correct": 0,
-    "seconds": 20,
-    "note": "Customer Acquisition Cost. Müşterinin ömür boyu değerinden (LTV) küçük olmalı."
-  },
-  {
-    "text": "Bir girişimin 'pivot' yapması ne demektir?",
-    "choices": [
-      "İş modelini veya ürünü köklü biçimde değiştirmek",
-      "Yeni ofise taşınmak",
-      "Şirketi satmak",
-      "Fiyatlara zam yapmak"
-    ],
-    "correct": 0,
-    "seconds": 20,
-    "note": "Instagram bir check-in uygulamasıydı, Slack ise oyun şirketiydi. İkisi de pivot."
-  },
-  {
-    "text": "QR kodundaki 'QR' ne demek?",
-    "choices": ["Quick Response", "Quality Rating", "Quick Read", "Query Resolver"],
-    "correct": 0,
-    "seconds": 15,
-    "note": "1994'te Japonya'da otomotiv parçalarını hızlı takip etmek için icat edildi. Buraya da onunla geldiniz."
-  },
-  {
-    "text": "'Bootstrapping' ne anlama gelir?",
-    "choices": [
-      "Dış yatırım almadan kendi kaynağıyla büyümek",
-      "Melek yatırımcı bulmak",
-      "Halka arza hazırlanmak",
-      "Yurt dışında şirket kurmak"
-    ],
-    "correct": 0,
-    "seconds": 20,
-    "note": "Yavaş büyütür ama şirket tamamen kurucularda kalır."
-  }
-]
+{
+  "rounds": [
+    {
+      "name": "Tur 1 — 08:50",
+      "questions": [
+        { "text": "MVP neyin kısaltması?", "choices": ["Minimum Viable Product", "Most Valuable Player", "Market Validation Phase", "Multi Vendor Platform"], "correct": 0, "seconds": 15, "note": "En az özellikle, fikrin işe yarayıp yaramadığını öğrenmeye yetecek ilk sürüm." },
+        { "text": "B2B ne demek?", "choices": ["Şirketten şirkete", "Şirketten tüketiciye", "Bankadan bankaya", "Tüketiciden tüketiciye"], "correct": 0, "seconds": 15, "note": "Business to Business. Tüketiciye satış ise B2C." },
+        { "text": "Antalya'nın plaka kodu kaçtır?", "choices": ["07", "06", "09", "01"], "correct": 0, "seconds": 15, "note": "07 Antalya. 06 Ankara, 09 Aydın, 01 Adana." },
+        { "text": "SaaS açılımı nedir?", "choices": ["Software as a Service", "Sales and Service", "Secure Access System", "Scalable Agile Stack"], "correct": 0, "seconds": 15, "note": "Yazılımı satın almak yerine abonelikle kullanmak." },
+        { "text": "NFC kartvizit nasıl çalışır?", "choices": ["Telefona dokundurunca profil açılır", "SMS gönderilir", "E-posta eki olarak gider", "Bluetooth eşleştirmesi gerekir"], "correct": 0, "seconds": 20, "note": "Kartı telefona yaklaştırmak yeterli; uygulama kurmaya gerek yok." },
+        { "text": "Aspendos Antik Tiyatrosu hangi ilimizdedir?", "choices": ["Antalya", "İzmir", "Muğla", "Mersin"], "correct": 0, "seconds": 20, "note": "Serik'te, Roma döneminden kalma ve akustiğiyle ünlü." },
+        { "text": "Bir SaaS şirketinde 'churn' neyi ölçer?", "choices": ["Ayrılan müşteri oranını", "Aylık geliri", "Sunucu maliyetini", "Çalışan sayısını"], "correct": 0, "seconds": 20, "note": "Abonelik işinde büyümeyi kesen asıl şey, mevcut müşteriyi kaybetmektir." },
+        { "text": "QR kodundaki 'QR' ne demek?", "choices": ["Quick Response", "Quality Rating", "Quick Read", "Query Resolver"], "correct": 0, "seconds": 15, "note": "1994'te Japonya'da üretim takibi için icat edildi. Buraya da onunla geldiniz." },
+        { "text": "Girişimcilikte 'runway' ne anlama gelir?", "choices": ["Para bitene kadar kalan süre", "Ürünün çıkış tarihi", "Ofis kirası", "Yatırımcı sunumu"], "correct": 0, "seconds": 20, "note": "Eldeki nakit, aylık gidere bölünür." },
+        { "text": "Amazon kurulduğunda yalnızca ne satıyordu?", "choices": ["Kitap", "Elektronik", "Oyuncak", "Kahve"], "correct": 0, "seconds": 20, "note": "1995'te sadece online kitapçıydı." },
+        { "text": "Bu quiz hangi altyapı üzerinde çalışıyor?", "choices": ["Business Partner AI", "Bir hazır quiz uygulaması", "Excel makrosu", "Sosyal medya anketi"], "correct": 0, "seconds": 15, "note": "Business Quiz, Business Partner AI altyapısındadır." },
+        { "text": "'Bootstrapping' ne anlama gelir?", "choices": ["Dış yatırım almadan kendi kaynağıyla büyümek", "Melek yatırımcı bulmak", "Halka arza hazırlanmak", "Yurt dışında şirket kurmak"], "correct": 0, "seconds": 20, "note": "Yavaş büyütür ama şirket tamamen kurucularda kalır." }
+      ]
+    },
+    {
+      "name": "Tur 2 — 10:05",
+      "questions": [
+        { "text": "KPI neyin kısaltması?", "choices": ["Key Performance Indicator", "Keep Profit Inside", "Known Product Issue", "Key Project Investment"], "correct": 0, "seconds": 15, "note": "Hedefe ne kadar yaklaştığını ölçen sayı." },
+        { "text": "Antalya'da şehir merkezine en yakın ünlü şelale hangisidir?", "choices": ["Düden", "Manavgat", "Kurşunlu", "Uçansu"], "correct": 0, "seconds": 20, "note": "Düden Şelalesi'nin alt kısmı denize dökülür." },
+        { "text": "ROI neyi ölçer?", "choices": ["Yatırımın getirisini", "Çalışan memnuniyetini", "Sunucu hızını", "Reklam süresini"], "correct": 0, "seconds": 20, "note": "Return on Investment: harcanan paraya karşılık kazanılan." },
+        { "text": "Netflix kurulduğunda hangi işi yapıyordu?", "choices": ["Posta ile DVD kiralama", "Film stüdyosu", "Sinema salonu", "Müzik satışı"], "correct": 0, "seconds": 20, "note": "1997'de DVD'leri postayla gönderiyordu." },
+        { "text": "Dijital kartvizitin basılı kartvizite göre en büyük avantajı nedir?", "choices": ["Bilgi değişince güncellenebilir", "Daha ağırdır", "İnternet gerektirmez", "Sadece bir kez kullanılır"], "correct": 0, "seconds": 20, "note": "Telefonun değişti, kart aynı kaldı: linki güncellersin, yeter." },
+        { "text": "'Freemium' modeli nedir?", "choices": ["Temel sürüm ücretsiz, gelişmiş özellikler ücretli", "Her şey ücretsiz", "İlk ay ücretli, sonrası bedava", "Sadece kurumsal satış"], "correct": 0, "seconds": 20, "note": "Kullanıcıyı ücretsiz çekip değer gördükçe ücretliye geçirmek." },
+        { "text": "Antalya'nın simgelerinden Yivli Minare hangi semttedir?", "choices": ["Kaleiçi", "Lara", "Konyaaltı", "Belek"], "correct": 0, "seconds": 20, "note": "Selçuklu döneminden kalma, Kaleiçi'nin simgesi." },
+        { "text": "CRM ne işe yarar?", "choices": ["Müşteri ilişkilerini takip etmeye", "Sunucu yönetmeye", "Video düzenlemeye", "Fatura basmaya"], "correct": 0, "seconds": 20, "note": "Customer Relationship Management: kim, ne zaman, ne konuştu." },
+        { "text": "Girişim dünyasında 'unicorn' ne demek?", "choices": ["1 milyar dolar değerlemeyi aşan girişim", "İlk yılında kâra geçen şirket", "Tek kurucusu olan girişim", "Hiç yatırım almamış şirket"], "correct": 0, "seconds": 20, "note": "Terim 2013'te ortaya atıldı; o zaman nadir oldukları için." },
+        { "text": "Bir web sayfasında 'CTA' ne demektir?", "choices": ["Eyleme çağrı butonu", "Sayfa başlığı", "Çerez uyarısı", "Arka plan görseli"], "correct": 0, "seconds": 20, "note": "Call To Action: \"Hemen dene\", \"Randevu al\" gibi." },
+        { "text": "Olympos yakınlarında sönmeden yanan doğal gaz alevlerine ne denir?", "choices": ["Yanartaş", "Ateşkaya", "Alevpınar", "Közdağ"], "correct": 0, "seconds": 20, "note": "Chimaera olarak da bilinir; binlerce yıldır yanıyor." },
+        { "text": "'Pivot' yapmak ne demektir?", "choices": ["İş modelini köklü biçimde değiştirmek", "Yeni ofise taşınmak", "Şirketi satmak", "Fiyatlara zam yapmak"], "correct": 0, "seconds": 20, "note": "Instagram check-in uygulamasıydı, Slack oyun şirketiydi." }
+      ]
+    },
+    {
+      "name": "Tur 3 — 11:20",
+      "questions": [
+        { "text": "CAC kısaltması neyi ifade eder?", "choices": ["Müşteri kazanma maliyeti", "Yıllık nakit akışı", "Toplam reklam bütçesi", "Müşteri memnuniyet skoru"], "correct": 0, "seconds": 20, "note": "Customer Acquisition Cost; LTV'den küçük olmalı." },
+        { "text": "Side'deki ünlü antik tapınak hangi tanrıya aittir?", "choices": ["Apollon", "Zeus", "Athena", "Artemis"], "correct": 0, "seconds": 20, "note": "Denize bakan sütunlarıyla Side'nin simgesi." },
+        { "text": "MRR ne demektir?", "choices": ["Aylık yinelenen gelir", "Maksimum risk oranı", "Pazarlama geri dönüş raporu", "Minimum gelir rezervi"], "correct": 0, "seconds": 20, "note": "Monthly Recurring Revenue: abonelik işinin nabzı." },
+        { "text": "Google'ın ilk adı neydi?", "choices": ["BackRub", "SearchIt", "GoLink", "WebFind"], "correct": 0, "seconds": 20, "note": "1996'da Stanford'da bu adla başladı." },
+        { "text": "Bir link-in-bio sayfası ne işe yarar?", "choices": ["Tüm bağlantıları tek adreste toplar", "Video kurgular", "Fatura keser", "Sunucu kiralar"], "correct": 0, "seconds": 20, "note": "Sosyal medyada tek link hakkın varsa, hepsini oraya sığdırırsın." },
+        { "text": "Antalya'daki Köprülü Kanyon hangi aktiviteyle ünlüdür?", "choices": ["Rafting", "Kayak", "Dalış", "Yamaç paraşütü"], "correct": 0, "seconds": 20, "note": "Köprüçay üzerinde Türkiye'nin en bilinen rafting parkuru." },
+        { "text": "'Burn rate' neyi anlatır?", "choices": ["Aylık nakit yakma hızını", "Sunucu sıcaklığını", "Reklam tıklanma oranını", "Çalışan devir hızını"], "correct": 0, "seconds": 20, "note": "Ayda ne kadar para eriyor; runway'i belirleyen şey." },
+        { "text": "A/B testi ne için yapılır?", "choices": ["İki seçeneği karşılaştırıp hangisi daha iyi çalışıyor görmek", "Sunucu yedeklemek", "Virüs taramak", "Kod derlemek"], "correct": 0, "seconds": 20, "note": "Tahmin yerine ölçüm: hangi başlık daha çok tıklanıyor?" },
+        { "text": "Antalya'da düzenlenen uluslararası film festivalinin adı nedir?", "choices": ["Altın Portakal", "Altın Koza", "Altın Lale", "Altın Defne"], "correct": 0, "seconds": 20, "note": "1964'ten beri düzenleniyor." },
+        { "text": "'Lead' pazarlamada ne anlama gelir?", "choices": ["Potansiyel müşteri", "Ürün yöneticisi", "Reklam bütçesi", "Satış sözleşmesi"], "correct": 0, "seconds": 15, "note": "İlgilenen ama henüz satın almamış kişi." },
+        { "text": "Business Partner AI gibi bir platformun standda quiz yapmasının asıl amacı nedir?", "choices": ["Etkileşim kurup potansiyel müşteriye ulaşmak", "Sunucu test etmek", "Çalışan eğitmek", "Vergi avantajı"], "correct": 0, "seconds": 20, "note": "Oyun bahane, tanışmak şahane." },
+        { "text": "Nokia hangi işle kuruldu?", "choices": ["Kağıt fabrikası", "Telefon üretimi", "Otomotiv", "Bankacılık"], "correct": 0, "seconds": 20, "note": "1865'te Finlandiya'da bir kağıt fabrikası olarak." }
+      ]
+    },
+    {
+      "name": "Tur 4 — 12:35",
+      "questions": [
+        { "text": "LTV neyi ifade eder?", "choices": ["Müşterinin ömür boyu değeri", "En düşük vergi oranı", "Uzun vadeli kredi", "Lisans devir bedeli"], "correct": 0, "seconds": 20, "note": "Lifetime Value: bir müşteri toplamda ne kazandırır." },
+        { "text": "Antalya'nın en bilinen iki plajı hangileridir?", "choices": ["Konyaaltı ve Lara", "Çeşme ve Alaçatı", "Ölüdeniz ve Çalış", "Kilyos ve Şile"], "correct": 0, "seconds": 20, "note": "Biri çakıl, diğeri kum." },
+        { "text": "'Scrum' hangi alanda kullanılır?", "choices": ["Yazılım proje yönetimi", "Muhasebe", "Lojistik depolama", "İnsan kaynakları bordrosu"], "correct": 0, "seconds": 20, "note": "Kısa döngüler (sprint) halinde ilerleme yöntemi." },
+        { "text": "Termessos antik kenti hangi özelliğiyle bilinir?", "choices": ["Dağların arasında, fethedilememiş olmasıyla", "Deniz altında olmasıyla", "Tamamen mermerden olmasıyla", "Hiç keşfedilmemiş olmasıyla"], "correct": 0, "seconds": 20, "note": "Büyük İskender bile alamadan geçmiş." },
+        { "text": "'Due diligence' ne demektir?", "choices": ["Yatırım öncesi detaylı inceleme", "Vergi affı", "Ürün lansmanı", "Çalışan terfisi"], "correct": 0, "seconds": 20, "note": "Yatırımcının defterleri tek tek açtığı aşama." },
+        { "text": "Bir profilin QR kodunu paylaşmanın en pratik yanı nedir?", "choices": ["Yazmadan, anında erişim", "Daha güvenli şifreleme", "İnternetsiz çalışması", "Daha az pil tüketmesi"], "correct": 0, "seconds": 20, "note": "Ad, telefon, link yazmakla uğraşmazsın." },
+        { "text": "Perge antik kenti hangi ilimizin sınırları içindedir?", "choices": ["Antalya", "Burdur", "Isparta", "Konya"], "correct": 0, "seconds": 20, "note": "Aksu ilçesinde; sütunlu caddesiyle ünlü." },
+        { "text": "'Retention' neyi ölçer?", "choices": ["Kullanıcıların kalma oranını", "Reklam maliyetini", "Sunucu kapasitesini", "Ürün fiyatını"], "correct": 0, "seconds": 20, "note": "Churn'ün tersi: kaçı geri geliyor?" },
+        { "text": "Twitter'ın (X) ilk adı neydi?", "choices": ["twttr", "Chirp", "Blerp", "Tweeter"], "correct": 0, "seconds": 20, "note": "Sesli harfsiz yazılan kısa alan adı modasıydı." },
+        { "text": "Antalya'da kayak yapılabilen merkez hangisidir?", "choices": ["Saklıkent", "Uludağ", "Palandöken", "Kartalkaya"], "correct": 0, "seconds": 20, "note": "Sabah kayak, öğleden sonra deniz: Antalya klasiği." },
+        { "text": "'Funnel' (huni) pazarlamada neyi anlatır?", "choices": ["Ziyaretçiden müşteriye giden aşamaları", "Sunucu mimarisini", "Ürün paketlemesini", "Vergi dilimlerini"], "correct": 0, "seconds": 20, "note": "Üstte çok kişi girer, altta az kişi satın alır." },
+        { "text": "Dijital bir profilde analitik (istatistik) görmek neden değerlidir?", "choices": ["Hangi bağlantının ilgi gördüğünü öğretir", "Sayfayı hızlandırır", "Pil tasarrufu sağlar", "Yazı tipini değiştirir"], "correct": 0, "seconds": 20, "note": "Tahmin değil veri: neyi öne çıkaracağını söyler." }
+      ]
+    },
+    {
+      "name": "Tur 5 — 12:50",
+      "questions": [
+        { "text": "'Cash flow' Türkçede ne demektir?", "choices": ["Nakit akışı", "Kâr marjı", "Sabit gider", "Borç tavanı"], "correct": 0, "seconds": 15, "note": "Kârlı görünüp nakitsiz batan şirket az değildir." },
+        { "text": "Hadrian Kapısı hangi şehirdedir?", "choices": ["Antalya", "Efes", "Bergama", "Didim"], "correct": 0, "seconds": 20, "note": "Kaleiçi girişindeki üç gözlü anıtsal kapı." },
+        { "text": "'Seed' yatırım turu neyi ifade eder?", "choices": ["İlk, çekirdek yatırım turunu", "Halka arzı", "Şirket satışını", "Banka kredisini"], "correct": 0, "seconds": 20, "note": "Fikri ürüne çevirmek için alınan ilk ciddi para." },
+        { "text": "SEO ne işe yarar?", "choices": ["Arama motorlarında üst sıralara çıkmaya", "Sunucu şifrelemeye", "Fatura kesmeye", "Video sıkıştırmaya"], "correct": 0, "seconds": 20, "note": "Search Engine Optimization." },
+        { "text": "Likya Yolu nedir?", "choices": ["Antalya–Fethiye arasında uzun mesafe yürüyüş rotası", "Bir otoyol projesi", "Deniz feribot hattı", "Tarihi tren yolu"], "correct": 0, "seconds": 20, "note": "Yaklaşık 500 km, Türkiye'nin ilk uzun yürüyüş rotası." },
+        { "text": "'NDA' belgesi ne içindir?", "choices": ["Gizlilik sözleşmesi", "İş sözleşmesi", "Kira kontratı", "Vergi beyanı"], "correct": 0, "seconds": 20, "note": "Non-Disclosure Agreement: konuşulanlar odada kalsın." },
+        { "text": "Bir girişimde 'traction' ne anlama gelir?", "choices": ["Ürünün gerçek ilgi ve büyüme göstergesi", "Ofis büyüklüğü", "Kurucu sayısı", "Reklam bütçesi"], "correct": 0, "seconds": 20, "note": "Yatırımcının ilk sorduğu şey: kanıt var mı?" },
+        { "text": "Antalya hangi ürünün üretiminde Türkiye'de öne çıkar?", "choices": ["Sera sebzeciliği", "Fındık", "Çay", "Ayçiçeği"], "correct": 0, "seconds": 20, "note": "Örtü altı üretimin merkezi." },
+        { "text": "'API' ne işe yarar?", "choices": ["İki yazılımın birbiriyle konuşmasını sağlar", "Ekran parlaklığını ayarlar", "Dosya sıkıştırır", "Virüs temizler"], "correct": 0, "seconds": 20, "note": "Application Programming Interface." },
+        { "text": "Bir etkinlikte toplanan iletişim bilgisi için neden açık onay gerekir?", "choices": ["Kişisel verilerin korunması gerektiği için", "Sunucu yer kapladığı için", "Form daha hızlı yüklensin diye", "Zorunlu değildir"], "correct": 0, "seconds": 20, "note": "Bu quizde de onay kutusu işaretlenmeden kayıt yapılmıyor." },
+        { "text": "Kurşunlu Şelalesi hangi ilimizdedir?", "choices": ["Antalya", "Denizli", "Muğla", "Burdur"], "correct": 0, "seconds": 20, "note": "Antalya merkeze yakın, tabiat parkı içinde." },
+        { "text": "'Break-even' noktası nedir?", "choices": ["Gelirin gideri tam karşıladığı an", "İlk satışın yapıldığı gün", "Yatırımın alındığı tarih", "Şirketin kapandığı an"], "correct": 0, "seconds": 20, "note": "Başa baş noktası: artık zarar etmiyorsun." }
+      ]
+    },
+    {
+      "name": "Tur 6 — 14:35",
+      "questions": [
+        { "text": "'OKR' yöntemi neyi tanımlar?", "choices": ["Hedefler ve ölçülebilir sonuçlar", "Ofis kira sözleşmesi", "Online kayıt rehberi", "Operasyonel kriz raporu"], "correct": 0, "seconds": 20, "note": "Objectives and Key Results." },
+        { "text": "Phaselis antik kenti neyiyle bilinir?", "choices": ["Üç limanı ve koylarıyla", "Yer altı şehriyle", "Peri bacalarıyla", "Travertenleriyle"], "correct": 0, "seconds": 20, "note": "Kemer yakınlarında, denizle iç içe." },
+        { "text": "'Bounce rate' neyi gösterir?", "choices": ["Siteye girip hemen çıkanların oranını", "Sunucu yeniden başlama sayısını", "İade edilen ürün oranını", "Reklam tıklama sayısını"], "correct": 0, "seconds": 20, "note": "Yüksekse sayfa beklentiyi karşılamıyor demektir." },
+        { "text": "Antalya'da Expo hangi yıl düzenlendi?", "choices": ["2016", "2010", "2020", "2004"], "correct": 0, "seconds": 20, "note": "EXPO 2016 Antalya, botanik temalıydı." },
+        { "text": "'Exit' girişimcilikte ne demektir?", "choices": ["Şirketin satılması veya halka açılması", "Ofisin kapanması", "Kurucunun işten ayrılması", "Ürünün durdurulması"], "correct": 0, "seconds": 20, "note": "Yatırımcının parasını geri aldığı an." },
+        { "text": "Dijital kartvizitte kişi bilgilerinin tek tıkla rehbere eklenmesini sağlayan dosya biçimi nedir?", "choices": ["vCard", "PDF", "CSV", "ZIP"], "correct": 0, "seconds": 20, "note": ".vcf uzantılı kartvizit dosyası." },
+        { "text": "Antalya'nın Kaş ilçesindeki batık şehir hangisidir?", "choices": ["Kekova", "Knidos", "Assos", "Troya"], "correct": 0, "seconds": 20, "note": "Deprem sonrası sular altında kalan antik yerleşim." },
+        { "text": "'Upsell' ne demektir?", "choices": ["Mevcut müşteriye daha üst paketi satmak", "İndirim yapmak", "Yeni müşteri bulmak", "Ürünü geri almak"], "correct": 0, "seconds": 20, "note": "En kolay satış, zaten memnun olan müşteriye yapılandır." },
+        { "text": "Bulut bilişimde 'ölçeklenebilirlik' ne demektir?", "choices": ["Yük arttıkça kaynağın büyüyebilmesi", "Verinin silinmesi", "Şifrenin değişmesi", "Sunucunun kapanması"], "correct": 0, "seconds": 20, "note": "Standa 10 kişi de gelse 100 kişi de, sistem ayakta kalmalı." },
+        { "text": "Antalya'nın tarihi iç limanına ne ad verilir?", "choices": ["Kaleiçi Yat Limanı", "Haliç", "Karaköy", "Çeşmealtı"], "correct": 0, "seconds": 20, "note": "Surların dibindeki eski liman." },
+        { "text": "'Backlog' yazılım ekiplerinde neyi ifade eder?", "choices": ["Yapılacak işler listesi", "Hata kayıt defteri", "Sunucu günlüğü", "Maaş bordrosu"], "correct": 0, "seconds": 20, "note": "Önceliklendirilmiş iş havuzu." },
+        { "text": "Bir ürünün 'onboarding' süreci neyi kapsar?", "choices": ["Yeni kullanıcının ilk deneyimini", "Sunucu kurulumunu", "Fatura kesimini", "Depo sayımını"], "correct": 0, "seconds": 20, "note": "İlk beş dakikada değer göremeyen kullanıcı geri gelmiyor." }
+      ]
+    },
+    {
+      "name": "Tur 7 — 15:20",
+      "questions": [
+        { "text": "'B2C' ne anlama gelir?", "choices": ["Şirketten tüketiciye", "Şirketten şirkete", "Tüketiciden şirkete", "Bankadan müşteriye"], "correct": 0, "seconds": 15, "note": "Business to Consumer." },
+        { "text": "Antalya'daki Saklıkent hangi dağ üzerindedir?", "choices": ["Bey Dağları", "Toros Dağları'nın Erciyes kolu", "Uludağ", "Ilgaz"], "correct": 0, "seconds": 20, "note": "Bakırlı Dağı / Bey Dağları bölgesinde." },
+        { "text": "'ARR' ne demektir?", "choices": ["Yıllık yinelenen gelir", "Ortalama geri dönüş oranı", "Aylık reklam rezervi", "Alacak risk raporu"], "correct": 0, "seconds": 20, "note": "Annual Recurring Revenue; MRR'ın on iki katı." },
+        { "text": "Antalya'nın en uzun kumsallarından biri olan Patara hangi özelliğiyle korunur?", "choices": ["Caretta caretta yuvalama alanı olmasıyla", "Askeri bölge olmasıyla", "Özel mülk olmasıyla", "Baraj alanı olmasıyla"], "correct": 0, "seconds": 20, "note": "Bu yüzden gece girişine kapalıdır." },
+        { "text": "'Prototip' ne işe yarar?", "choices": ["Fikri test etmek için hızlı örnek üretmek", "Son ürünü satmak", "Patent almak", "Vergi indirimi sağlamak"], "correct": 0, "seconds": 20, "note": "Ucuza yanılmanın en iyi yolu." },
+        { "text": "Bir sayfanın mobil uyumlu olması neden kritiktir?", "choices": ["Ziyaretçilerin çoğu telefondan girer", "Masaüstü tarayıcılar kapanıyor", "Daha az yer kaplar", "Zorunlu bir yasadır"], "correct": 0, "seconds": 20, "note": "Bu quize de hepiniz telefondan girdiniz." },
+        { "text": "Antalya'da her yıl düzenlenen ve bahar aylarına denk gelen karnaval hangisidir?", "choices": ["Portakal Çiçeği Karnavalı", "Lavanta Festivali", "Kiraz Festivali", "Üzüm Bayramı"], "correct": 0, "seconds": 20, "note": "Şehir merkezinde kortejlerle kutlanır." },
+        { "text": "'Benchmark' ne demektir?", "choices": ["Karşılaştırma ölçütü", "Bütçe kalemi", "Yedekleme yöntemi", "Sözleşme maddesi"], "correct": 0, "seconds": 20, "note": "Rakibe veya sektöre göre nerede olduğunu ölçmek." },
+        { "text": "Bir girişim için 'network' neden önemlidir?", "choices": ["Doğru kişiyle tanışmak fırsat ve müşteri getirir", "Sunucu hızını artırır", "Vergi azaltır", "Ofis kirasını düşürür"], "correct": 0, "seconds": 20, "note": "DevFest gibi etkinliklerin asıl değeri burada." },
+        { "text": "Alanya'daki ünlü tarihi yapı hangisidir?", "choices": ["Kızıl Kule", "Galata Kulesi", "Saat Kulesi", "Beyazıt Kulesi"], "correct": 0, "seconds": 20, "note": "Selçuklu döneminden kalma, sekizgen planlı." },
+        { "text": "'Değer önerisi' (value proposition) nedir?", "choices": ["Müşteriye hangi sorunu nasıl çözdüğünün net ifadesi", "Ürünün maliyeti", "Reklam sloganı yarışması", "Hisse dağılımı"], "correct": 0, "seconds": 20, "note": "Tek cümlede anlatamıyorsan, henüz netleşmemiştir." },
+        { "text": "Bir etkinlikte QR ile gelen ziyaretçinin verisinin kendi sisteminde kalması neden değerlidir?", "choices": ["Müşteri ilişkisini doğrudan kurabilirsin", "Sunucu ucuzlar", "QR daha hızlı okunur", "Pil tüketimi azalır"], "correct": 0, "seconds": 20, "note": "Aracı platforma bağımlı kalmazsın." }
+      ]
+    },
+    {
+      "name": "Tur 8 — 16:05",
+      "questions": [
+        { "text": "'Market fit' (ürün-pazar uyumu) ne demektir?", "choices": ["Ürünün gerçek bir ihtiyacı karşıladığının kanıtlanması", "Ürünün raflara dizilmesi", "Fiyatın düşürülmesi", "Patentin alınması"], "correct": 0, "seconds": 20, "note": "Kullanıcılar ürünü elinden almaya kalksan kızıyorsa, bulmuşsundur." },
+        { "text": "Antalya Müzesi hangi dönem eserleriyle öne çıkar?", "choices": ["Roma dönemi heykelleriyle", "Osmanlı minyatürleriyle", "Modern resimle", "Fosil koleksiyonuyla"], "correct": 0, "seconds": 20, "note": "Perge kazılarından çıkan heykeller burada sergilenir." },
+        { "text": "'Growth hacking' nedir?", "choices": ["Düşük bütçeyle hızlı büyüme yöntemleri", "Sunucuya sızmak", "Rakibi engellemek", "Reklam yasağı"], "correct": 0, "seconds": 20, "note": "Yaratıcılıkla bütçe açığını kapatmak." },
+        { "text": "Demre hangi tarihi kişilikle anılır?", "choices": ["Noel Baba (Aziz Nikolaos)", "Homeros", "Heredot", "İbn Battuta"], "correct": 0, "seconds": 20, "note": "Myra Antik Kenti ve Aziz Nikolaos Kilisesi buradadır." },
+        { "text": "'Cap table' neyi gösterir?", "choices": ["Şirketteki hisse dağılımını", "Üretim kapasitesini", "Reklam takvimini", "Personel listesini"], "correct": 0, "seconds": 20, "note": "Kim ne kadarına sahip, tek tabloda." },
+        { "text": "Bir yazılımda 'uptime' ne demektir?", "choices": ["Sistemin kesintisiz ayakta kalma süresi", "Güncelleme sıklığı", "Yükleme hızı", "Kullanıcı sayısı"], "correct": 0, "seconds": 20, "note": "Bu quiz bugün boyunca ayakta kalmak zorunda olan bir sistem." },
+        { "text": "Antalya'nın kuzeyindeki, antik çağda Pisidya bölgesine ait göl kenarı kenti hangisidir?", "choices": ["Sagalassos", "Milet", "Afrodisias", "Laodikeia"], "correct": 0, "seconds": 20, "note": "Burdur sınırına yakın, Toroslar'ın yamacında." },
+        { "text": "'Referans müşteri' neden önemlidir?", "choices": ["Yeni müşterinin güvenini kazandırır", "Vergi indirimi sağlar", "Sunucu maliyetini düşürür", "Ürünü hızlandırır"], "correct": 0, "seconds": 20, "note": "En iyi satışçı, memnun müşteridir." },
+        { "text": "Kemer'in simgesi haline gelen heykel hangisidir?", "choices": ["Ayı heykeli", "Deniz kızı", "At heykeli", "Kartal"], "correct": 0, "seconds": 20, "note": "Kemer Marina yakınındaki ünlü figür." },
+        { "text": "'Freemium'dan ücretli plana geçiş oranına ne denir?", "choices": ["Dönüşüm oranı", "Çıkış oranı", "Tıklama oranı", "Dolaşım oranı"], "correct": 0, "seconds": 20, "note": "Conversion rate." },
+        { "text": "Business Quiz'de hızlı cevap vermek neden avantajlıdır?", "choices": ["Puan, cevap süresine göre hesaplanır", "Sıra beklemezsin", "Soru kolaylaşır", "Hiç fark etmez"], "correct": 0, "seconds": 15, "note": "Doğru cevap 1000 puandan başlar, süre geçtikçe azalır." },
+        { "text": "Bir etkinlikten sonra toplanan iletişim bilgileriyle yapılacak ilk doğru iş nedir?", "choices": ["Kısa sürede ve izinli biçimde iletişime geçmek", "Bir yıl bekleyip aramak", "Listeyi satmak", "Hiçbir şey yapmamak"], "correct": 0, "seconds": 20, "note": "Sıcak ilgi hızla soğur; ilk 48 saat kıymetlidir." }
+      ]
+    }
+  ]
+}

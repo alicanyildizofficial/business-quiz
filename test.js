@@ -79,7 +79,9 @@ const post = (body) => ({ method: 'POST', headers: { 'Content-Type': 'applicatio
 
   // Herkes cevaplasın: yarısı doğru, yarısı yanlış
   const q0 = (await host('/api/host/state')).body.question;
-  const correctIdx = JSON.parse(require('fs').readFileSync(__dirname + '/questions.json', 'utf8'))[0].correct;
+  const qfile = JSON.parse(require('fs').readFileSync(__dirname + '/questions.json', 'utf8'));
+  const firstRound = Array.isArray(qfile) ? qfile : qfile.rounds[0].questions;
+  const correctIdx = firstRound[0].correct;
   await Promise.all(
     ids.map((id, i) =>
       api('/api/answer', post({ playerId: id, qIndex: 0, choice: i % 2 === 0 ? correctIdx : (correctIdx + 1) % 4 }))
@@ -134,10 +136,15 @@ const post = (body) => ({ method: 'POST', headers: { 'Content-Type': 'applicatio
     st = (await host('/api/host/state')).body;
     check('BAYAT KOMUT SORUYU ATLAMIYOR', st.phase === 'reveal' && st.qIndex === idx, st.phase + '/' + st.qIndex);
 
-    // Host artık reveal gördüğünü bildiriyor → ilerlemeli
+    // Host artık reveal gördüğünü bildiriyor → ara sıralamaya geçmeli
     await host('/api/host/action', post({ action: 'advance', seenPhase: 'reveal', seenIndex: idx }));
     st = (await host('/api/host/state')).body;
-    check('doğru komut sonraki soruya geçiyor', st.qIndex === idx + 1, 'q=' + st.qIndex);
+    check('reveal sonrası ara sıralama geliyor', st.phase === 'scoreboard', st.phase);
+
+    // Ara sıralamadan sonra sıradaki soru
+    await host('/api/host/action', post({ action: 'advance', seenPhase: 'scoreboard', seenIndex: idx }));
+    st = (await host('/api/host/state')).body;
+    check('ara sıralamadan sonraki soruya geçiliyor', st.qIndex === idx + 1, 'q=' + st.qIndex);
   }
 
   console.log('\n7) Sona kadar');
@@ -146,6 +153,7 @@ const post = (body) => ({ method: 'POST', headers: { 'Content-Type': 'applicatio
     const st = (await host('/api/host/state')).body;
     if (st.phase === 'final') break;
     await host('/api/host/action', post({ action: st.phase === 'question' ? 'reveal' : 'next' }));
+    await new Promise((r) => setTimeout(r, 60));
   }
   h = (await host('/api/host/state')).body;
   check('final fazına ulaşıldı', h.phase === 'final');

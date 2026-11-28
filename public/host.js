@@ -7,8 +7,7 @@ const KEY = new URLSearchParams(location.search).get('key') || '';
 if (!KEY) {
   document.body.innerHTML =
     '<div class="wrap"><h1>Host anahtarı eksik</h1>' +
-    '<p class="lead">Bu sayfayı <code>/host?key=...</code> adresiyle aç. ' +
-    'Anahtar sunucu başlarken konsola yazılır (HOST_KEY).</p></div>';
+    '<p class="lead">Bu sayfayı <code>/host?key=...</code> adresiyle aç.</p></div>';
   throw new Error('no key');
 }
 
@@ -16,7 +15,8 @@ let lastQIndex = -1;
 let lastPhase = null;
 let localDeadline = 0;
 let localDuration = 20000;
-let knownPlayers = 0;
+let knownPlayers = -1;
+let confettiAt = null;
 
 function show(name) {
   for (const el of document.querySelectorAll('.screen')) el.classList.remove('active');
@@ -32,24 +32,26 @@ async function action(name, extra) {
   if (res.ok) render(await res.json());
 }
 
-// Tek buton tüm akışı yönetir: lobi→başlat, soru→sonucu göster, sonuç→sonraki.
-// Kararı sunucu verir; baktığımız ekranı da yollarız ki süre tam dolarken
-// basılan tuş soruyu atlamasın.
+// Tek buton akışı yönetir; kararı sunucu verir (bayat komut soruyu atlamaz).
 $('h-main').addEventListener('click', () => {
   action('advance', { seenPhase: lastPhase, seenIndex: lastQIndex });
 });
 $('h-reset').addEventListener('click', () => {
-  if (confirm('Yeni oyun başlatılsın mı? Puanlar sıfırlanır, toplanan leadler korunur.')) {
-    lastQIndex = -1;
-    knownPlayers = 0;
+  if (confirm('Bu turu baştan başlatalım mı? Puanlar sıfırlanır, PIN değişir, leadler korunur.')) {
+    lastQIndex = -1; knownPlayers = -1; confettiAt = null;
     action('reset');
+  }
+});
+$('h-next-round').addEventListener('click', () => {
+  if (confirm('Sonraki tura geçilsin mi? Yeni PIN üretilir, puanlar sıfırlanır, leadler korunur.')) {
+    lastQIndex = -1; knownPlayers = -1; confettiAt = null;
+    action('nextRound');
   }
 });
 $('h-csv').addEventListener('click', () => {
   location.href = '/api/host/leads.csv?key=' + encodeURIComponent(KEY);
 });
 
-// Boşluk / sağ ok ile ilerlet — sunucu laptopa bakmadan yönetebilsin
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT') return;
   if (e.code === 'Space' || e.code === 'ArrowRight' || e.code === 'Enter') {
@@ -74,25 +76,21 @@ function renderChoices(q, reveal) {
     const d = document.createElement('div');
     d.className = 'host-choice';
     d.dataset.i = String(i);
-
     const g = document.createElement('span'); g.className = 'g'; g.textContent = GLYPHS[i];
     const t = document.createElement('span'); t.textContent = text;
     d.append(g, t);
-
     if (reveal) {
       const c = document.createElement('span');
       c.className = 'cnt';
       c.textContent = (counts[i] || 0) + ' kişi';
       d.appendChild(c);
-      if (i === q.correct) d.classList.add('right');
-      else d.classList.add('dim');
+      if (i === q.correct) d.classList.add('right'); else d.classList.add('dim');
     }
     box.appendChild(d);
   });
 }
 
-function renderPodium(list) {
-  const ul = $('h-podium');
+function fillRank(ul, list) {
   ul.innerHTML = '';
   list.forEach((p, i) => {
     const li = document.createElement('li');
@@ -105,15 +103,22 @@ function renderPodium(list) {
   });
 }
 
+function autoText(ms) {
+  if (ms == null) return '';
+  return 'Sıradaki ekran <b>' + Math.ceil(ms / 1000) + '</b> sn içinde — beklemeden geçmek için boşluğa bas.';
+}
+
 function render(s) {
   $('h-players').textContent = s.playerCount;
   $('h-leads').textContent = s.leadCount;
   $('h-answered').textContent = s.question ? s.question.answered : 0;
   $('h-pos').textContent = s.qIndex >= 0 ? (s.qIndex + 1) + '/' + s.total : '—';
+  $('h-round').textContent = (s.roundIndex + 1) + '/' + s.roundCount;
 
   if (s.phase === 'lobby') {
     $('h-pin').textContent = s.pin;
     $('h-url').textContent = location.host;
+    $('h-roundname').textContent = s.roundName + ' · Oyun PIN kodu';
     if (s.playerCount !== knownPlayers) {
       knownPlayers = s.playerCount;
       const box = $('h-joined');
@@ -132,6 +137,7 @@ function render(s) {
     if (s.qIndex !== lastQIndex || lastPhase !== 'question') {
       $('h-qtext').textContent = s.question.text;
       $('h-note').textContent = '';
+      $('h-auto').innerHTML = '';
       renderChoices(s.question, false);
     }
     localDuration = s.question.durationMs;
@@ -143,18 +149,35 @@ function render(s) {
     show('question');
   } else if (s.phase === 'reveal' && s.question) {
     localDeadline = 0;
-    // Sonuç ekranında geri sayım bir işe yaramıyor, yer kaplıyor.
     document.querySelector('.host-timer').style.visibility = 'hidden';
     $('h-qtext').textContent = s.question.text;
     renderChoices(s.question, true);
     $('h-note').textContent = s.question.note || '';
-    $('h-main').textContent = s.qIndex + 1 >= s.total ? 'Yarışmayı bitir' : 'Sonraki soru';
+    $('h-auto').innerHTML = autoText(s.autoInMs);
+    $('h-main').textContent = 'Sıralamayı göster';
     $('h-main').disabled = false;
     show('question');
+  } else if (s.phase === 'scoreboard') {
+    fillRank($('h-boardlist'), s.leaderboard);
+    $('h-auto2').innerHTML = autoText(s.autoInMs);
+    $('h-main').textContent = s.qIndex + 1 >= s.total ? 'Yarışmayı bitir' : 'Sonraki soru';
+    $('h-main').disabled = false;
+    show('board');
   } else if (s.phase === 'final') {
-    renderPodium(s.leaderboard);
-    $('f-players').textContent = s.playerCount;
-    $('f-leads').textContent = s.leadCount;
+    const pod = s.leaderboard || [];
+    for (let i = 0; i < 3; i++) {
+      const p = pod[i];
+      $('hpod' + (i + 1) + '-name').textContent = p ? p.name : '—';
+      $('hpod' + (i + 1) + '-score').textContent = p ? p.score + ' puan' : '';
+    }
+    fillRank($('h-rest'), pod.slice(3));
+    if (confettiAt !== s.roundIndex) {
+      confettiAt = s.roundIndex;
+      if (window.confettiBurst) {
+        window.confettiBurst(200);
+        setTimeout(() => window.confettiBurst(140), 700);
+      }
+    }
     $('h-main').textContent = 'Bitti';
     $('h-main').disabled = true;
     show('final');
@@ -171,12 +194,8 @@ async function poll() {
   try {
     const res = await fetch('/api/host/state?key=' + encodeURIComponent(KEY), { cache: 'no-store' });
     if (res.ok) render(await res.json());
-    else if (res.status === 403) {
-      document.body.innerHTML = '<div class="wrap"><h1>Anahtar geçersiz</h1></div>';
-    }
-  } catch (_) {
-    /* yeniden dener */
-  }
+    else if (res.status === 403) document.body.innerHTML = '<div class="wrap"><h1>Anahtar geçersiz</h1></div>';
+  } catch (_) { /* yeniden dener */ }
   polling = false;
 }
 
