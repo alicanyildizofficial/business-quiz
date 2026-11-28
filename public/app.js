@@ -140,13 +140,14 @@ function tickTimer() {
 }
 setInterval(tickTimer, 100);
 
-function fillRank(ul, list, meName) {
+function fillRank(ul, list, meName, offset) {
+  const off = offset || 0;
   ul.innerHTML = '';
   list.forEach((p, i) => {
     const li = document.createElement('li');
-    if (i === 0) li.classList.add('gold');
+    if (off === 0 && i === 0) li.classList.add('gold');
     if (p.name === meName) li.classList.add('me');
-    const pos = document.createElement('span'); pos.className = 'pos'; pos.textContent = i + 1;
+    const pos = document.createElement('span'); pos.className = 'pos'; pos.textContent = off + i + 1;
     const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = p.name;
     const sc = document.createElement('span'); sc.className = 'sc'; sc.textContent = p.score;
     li.append(pos, nm, sc);
@@ -223,7 +224,7 @@ function render(s) {
       $('pod' + (i + 1) + '-name').textContent = p ? p.name : '—';
       $('pod' + (i + 1) + '-score').textContent = p ? p.score : '';
     }
-    fillRank($('f-rest'), pod.slice(3), meName);
+    fillRank($('f-rest'), pod.slice(3), meName, 3);
     $('f-score').textContent = me.score;
     $('f-rank').textContent = rank;
     if (me.rank && me.rank <= 3 && confettiShownFor !== 999) {

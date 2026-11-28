@@ -90,12 +90,13 @@ function renderChoices(q, reveal) {
   });
 }
 
-function fillRank(ul, list) {
+function fillRank(ul, list, offset) {
+  const off = offset || 0;
   ul.innerHTML = '';
   list.forEach((p, i) => {
     const li = document.createElement('li');
-    if (i === 0) li.classList.add('gold');
-    const pos = document.createElement('span'); pos.className = 'pos'; pos.textContent = i + 1;
+    if (off === 0 && i === 0) li.classList.add('gold');
+    const pos = document.createElement('span'); pos.className = 'pos'; pos.textContent = off + i + 1;
     const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = p.name;
     const sc = document.createElement('span'); sc.className = 'sc'; sc.textContent = p.score;
     li.append(pos, nm, sc);
@@ -170,7 +171,7 @@ function render(s) {
       $('hpod' + (i + 1) + '-name').textContent = p ? p.name : '—';
       $('hpod' + (i + 1) + '-score').textContent = p ? p.score + ' puan' : '';
     }
-    fillRank($('h-rest'), pod.slice(3));
+    fillRank($('h-rest'), pod.slice(3), 3);
     if (confettiAt !== s.roundIndex) {
       confettiAt = s.roundIndex;
       if (window.confettiBurst) {
