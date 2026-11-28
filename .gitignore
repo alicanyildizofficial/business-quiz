@@ -4,3 +4,6 @@ node_modules/
 HOST_KEY.local.txt
 COOLIFY.local.txt
 COOLIFY.local*
+
+# Lead yedekleri: kisisel veri, depo public
+yedek/
