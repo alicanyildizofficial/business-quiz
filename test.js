@@ -15,6 +15,11 @@ const PLAYERS = Number(process.env.PLAYERS) || 20;
 let pass = 0;
 let fail = 0;
 
+let quietFails = 0;
+function check2(cond, msg) {
+  if (!cond) { quietFails++; if (quietFails < 5) console.log('  ✗ ' + msg); }
+}
+
 function check(label, cond, extra) {
   if (cond) { pass++; console.log('  ✓ ' + label); }
   else { fail++; console.log('  ✗ ' + label + (extra ? '  → ' + extra : '')); }
@@ -185,7 +190,37 @@ const post = (body) => ({ method: 'POST', headers: { 'Content-Type': 'applicatio
     Array.from(rawCsv).map((b) => b.toString(16)).join(' ')
   );
 
-  console.log('\n9) Güvenlik');
+  console.log('\n9) Soru havuzu');
+  {
+    // Şikayet buydu: doğru cevap her soruda aynı şıkta çıkıyordu.
+    const spread = [0, 0, 0, 0];
+    let total = 0;
+    let worstRun = 0;
+    for (const r of qfile.rounds) {
+      let run = 0;
+      let prev = -1;
+      for (const q of r.questions) {
+        check2(q.choices.length === 4, '4 şık değil: ' + q.text);
+        check2(new Set(q.choices).size === 4, 'tekrarlı şık: ' + q.text);
+        check2(q.correct >= 0 && q.correct < 4, 'geçersiz correct: ' + q.text);
+        spread[q.correct]++;
+        total++;
+        run = q.correct === prev ? run + 1 : 1;
+        prev = q.correct;
+        if (run > worstRun) worstRun = run;
+      }
+    }
+    check('soru havuzu tutarlı (4 benzersiz şık, geçerli indeks)', quietFails === 0, quietFails + ' sorun');
+    check(
+      'DOĞRU CEVAPLAR TEK ŞIKTA YIĞILMIYOR',
+      Math.max.apply(null, spread) <= Math.ceil(total / 4),
+      JSON.stringify(spread)
+    );
+    check('her şık en az bir kez doğru', spread.every((n) => n > 0), JSON.stringify(spread));
+    check('aynı konum 3 soru üst üste tekrarlamıyor', worstRun < 3, 'en uzun seri=' + worstRun);
+  }
+
+  console.log('\n10) Güvenlik');
   check('dizin dışına çıkılamıyor', (await api('/../server.js')).status === 404);
   check('bilinmeyen api 404', (await api('/api/yok')).status === 404);
 
