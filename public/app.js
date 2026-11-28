@@ -74,7 +74,21 @@ $('pin').addEventListener('input', (e) => {
 async function autoRejoin(currentPin) {
   if (rejoining) return;
   const name = localStorage.getItem('bq_name');
+  const savedPin = localStorage.getItem('bq_pin');
   if (!name || !currentPin) return;
+
+  // PIN değiştiyse bu yeni bir tur: kimseyi kendiliğinden içeri almıyoruz.
+  // Aksi halde standdan ayrılmış birinin cebindeki açık sayfa sonraki tura
+  // hayalet oyuncu olarak katılır, sıralamayı ve sayımı bozar.
+  if (savedPin && String(savedPin) !== String(currentPin)) {
+    localStorage.removeItem('bq_player');
+    playerId = null;
+    show('join');
+    $('name').value = name;
+    $('join-err').textContent = 'Yeni tur başladı — ekrandaki PIN ile katıl.';
+    return;
+  }
+
   rejoining = true;
   try {
     await joinWith(currentPin, name);
